@@ -19,6 +19,10 @@ def gen(camera):
        # print("123")
        # buttonPress = input()
        # executeKeyboardJob(buttonPress)
+def listen():
+    print("I'm listening")
+    gpg = GoPiGo3WithKeyboard()
+
 @app.route('/input')
 def control():
     print("a")
@@ -34,19 +38,20 @@ def video_feed():
 @app.route('/navigate')
 def navigate():
     gpg = EasyGoPiGo3()
-    a=input()
-    print(a)
-    if a=='w':
-        gpg.forward()
-        time.sleep(1)
-    elif a=='a':
-        gpg.right()
-        time.sleep(1)
-    elif a=='d':
-        gpg.left()
-        time.sleep(1)
-    else:
-        gpg.stop()
+    while True:
+        a=input()
+        print(a)
+        if a=='w':
+            gpg.forward()
+            time.sleep(1)
+        elif a=='a':
+            gpg.right()
+            time.sleep(1)
+        elif a=='d':
+            gpg.left()
+            time.sleep(1)
+        else:
+            gpg.stop()
     return 1
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, threaded=True)

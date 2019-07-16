@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, Response
 from camera import Camera
 from keyboarded_robot import GoPiGo3WithKeyboard
+from easygopigo3 import *
+import sys
 
 
 app = Flask(__name__)
@@ -29,8 +31,23 @@ def control():
 def video_feed():
     return Response(gen(Camera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
+@app.route('/navigate')
+def navigate():
+    gpg = EasyGoPiGo3()
+    a=input()
+    print(a)
+    if a=='w':
+        gpg.forward()
+        time.sleep(1)
+    elif a=='a':
+        gpg.right()
+        time.sleep(1)
+    elif a=='d':
+        gpg.left()
+        time.sleep(1)
+    else:
+        gpg.stop()
+    return 1
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, threaded=True)
     control()

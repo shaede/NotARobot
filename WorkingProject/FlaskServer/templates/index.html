@@ -4,11 +4,33 @@
 
 <head>
     <title>Control the goPigo</title>
+    <h>HelloWorld </h>
+    
+    <!--<script "text/javascript" src = "http://code.jquery.com/jquery 2.1.4.min.js"></script> -->
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 
 <body>
 
 <div id="camera"><img src="{{ url_for('video_feed') }}"></div>
+
+<script>
+function listener(code){
+    var test = $.ajax({
+        type: "POST",
+        url: "/webListener",
+        async: false,
+        data:{mydata: code}
+        });
+    return test;
+    }
+$(window).on('keypress', function(e) {
+    var key = e.key;
+    console.log("Key pressed was: " + e.key);
+    result = listener(key);
+    console.log(result)
+    });
+</script>
 
 </body>
 

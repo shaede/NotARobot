@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, Response
 from camera import Camera
-from keyboarded_robot import GoPiGo3WithKeyboard
+from keyboarded_robot import *
 from easygopigo3 import *
 import sys
 import gopigo3
-
+import time
 
 app = Flask(__name__)
 #init the servo
@@ -86,6 +86,14 @@ def navigate():
         else:
             gpg.stop()
     return 1
+
+@app.route('/webListener',methods = ['POST'])
+def webListener():
+    if request.method == 'POST':
+        gpg = GoPiGo3WithKeyboard()
+        time.sleep(1)
+        gpg.executeKeyboardJob(request.form['mydata'])
+        return "success"
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, threaded=True)
     control()

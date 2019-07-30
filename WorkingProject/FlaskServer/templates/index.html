@@ -3,15 +3,20 @@
 <html>
 
 <head>
+    
     <title>Control the goPigo</title>
     <h>HelloWorld </h>
     
-    <!--<script "text/javascript" src = "http://code.jquery.com/jquery 2.1.4.min.js"></script> -->
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    
+    
+    <!--
+    <script src = "jquery-3.4.1.min.js"></script>
+    -->
+    
 </head>
 
 <body>
-
 <div id="camera"><img src="{{ url_for('video_feed') }}"></div>
 
 <script>
@@ -31,6 +36,7 @@ $(window).on('keypress', function(e) {
     console.log(result)
     });
 </script>
+
 
 </body>
 

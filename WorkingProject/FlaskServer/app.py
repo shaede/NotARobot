@@ -91,36 +91,66 @@ def bound(a):
 @app.route('/navigate')
 def navigate():
     gpg = EasyGoPiGo3()
+    #fire servo
     servo1 = gpg.init_servo(port = "SERVO1")
+    #tilt servo
+    servo2 = gpg.init_servo(port = "SERVO2")
     robot = gopigo3.GoPiGo3()
+    rotate = 1750
+    robot.set_servo(robot.SERVO_2,rotate)
+
     while True:
+        index()
+        video_feed()
         a=input()
         print(a)
         if a=='w':
-            gpg.forward()
+            gpg.drive_cm(2, True)
         elif a=='a':
-            gpg.right()
+            gpg.turn_degrees(-9)
         elif a=='d':
-            gpg.left()
+            gpg.turn_degrees(9)
         elif a=='s':
-            gpg.backward()
+            gpg.drive_cm(-2)
         elif a=='i':
             gpg.drive_cm(10, True)
-        elif a=='j':
-            gpg.backward_cm(10)
         elif a=='k':
-            gpg.turn_degrees(45)
-        elif a=='l':
+            gpg.drive_cm(-10)
+        elif a=='j':
             gpg.turn_degrees(-45)
+        elif a=='l':
+            gpg.turn_degrees(45)
         elif a=='f':
             robot.set_servo(robot.SERVO_1, 1850)
             #servo1.rotate_servo(-5)
-            time.sleep(1)
+            time.sleep(.25)
             #servo1.rotate_servo(5)
             robot.set_servo(robot.SERVO_1,0)
+        elif a=='t':
+            rotate = rotate + 20
+            robot.set_servo(robot.SERVO_2,rotate)
+            #time.sleep(1)
+            #robot.set_servo(robot.SERVO_2,0)
+        elif a=='g':
+            rotate = rotate - 20
+            robot.set_servo(robot.SERVO_2,rotate)
+            #time.sleep(1)
+            #robot.set_servo(robot.SERVO_2,0)
+        elif a=='.':
+            screen()
+            time.sleep(5)
         else:
             gpg.stop()
-    return 1
+def video():
+    frame = camera.get_frame()
+    yield (b'--frame\r\n'
+         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+def screen():
+    frame = camera.get_filter()
+    yield (b'--frame\r\n'
+        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True, threaded=True)
     control()
